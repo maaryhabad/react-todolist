@@ -1,10 +1,13 @@
-import { CreateTaskForm } from "../../components";
+import { CreateTaskForm, TodoList } from "../../components";
+import style from "./home.module.css"
 
 const Home = () => {
     return (
-        <>
-        <CreateTaskForm />
-        </>
+        <div className={style.Home}>
+            <CreateTaskForm />
+            <TodoList/>
+        </div>
+        
     );
 }
 

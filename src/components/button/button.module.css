@@ -5,10 +5,10 @@
 }
 
 .Button[type="primary"] {
-    background-color: var(--verde);
+    background-color: var(--rosa);
     color: var(--cinza);
 }
 .Button[type="secondary"] {
-    background-color: var(--rosa);
+    background-color: var(--verde);
     color: var(--cinza);
 }
