@@ -1,0 +1,6 @@
+.TextField {
+    border: 1px solid var(--preto);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    width: 25rem;
+}
