@@ -13,11 +13,6 @@ function App() {
       <BrowserRouter>
         <Router/>
       </BrowserRouter>
-    {/* <Header userName="Mari"/>
-    <Content>
-      <Home/>
-    </Content>
-    <Footer creatorName="Mariana Abad"/> */}
     </>
   )
 }
