@@ -2,12 +2,8 @@ import style from "./todolist.module.css"
 import { TodoListItem } from "./todolistItem"
 
 
-const TodoList = () => {
-    const tasks = [
-        {id: 1, name: "Item 1"},
-        {id: 2, name: "Item 2"},
-        {id: 3, name: "Item 3"},
-    ];
+const TodoList = (props) => {
+    const { tasks } = props;
 
     return (
         <ul className={style.TodoList}>
