@@ -1,38 +1,29 @@
 import { useState } from "react";
 import { TextField, Button } from "../../components"
 import style from "./createTaskForm.module.css"
+import { useAppContext } from "../../hooks";
 
-const CreateTaskForm = (props) => {
+const CreateTaskForm = () => {
+
+    const { addTask } = useAppContext();
     const [ taskName, setTaskName ] = useState("");
-
-    const { setTasks } = props;
 
     const onChangedTaskName = (event) => {
         setTaskName(event.currentTarget.value);
     }
 
-    const addTask = (event) => {
+    const submitForm = (event) => {
         event.preventDefault();
 
         if (!taskName) { return; }
 
-        setTasks(currentState => {
-            const task = {
-                id: currentState.length + 1,
-                name: taskName
-            }
-
-            return [
-                ...currentState,
-                task,
-            ]
-        });
+        addTask(taskName);
 
         setTaskName('');
     }
 
     return (
-        <form className={style.CreateTaskForm} onSubmit={addTask}>
+        <form className={style.CreateTaskForm} onSubmit={submitForm}>
             <TextField value={taskName} onChange={onChangedTaskName}/>
             <Button text="Adicionar tarefa"/>
         </form>
