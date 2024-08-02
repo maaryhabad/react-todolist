@@ -28,6 +28,21 @@ export const AppContextProvider = (props) => {
         });
     }
 
+    const editTask = (taskId, taskName) => {
+        const updatedTasks = setTasks(currentState => {
+            currentState.map(task => {
+                return task.id == taskId ? {
+                    ...task,
+                    name: taskName,
+                } : task;
+            })
+        });
+
+        return [
+            ...updatedTasks,
+        ]
+    }
+
     const removeTask = (taskId) => {
         setTasks(currentState => {
             const updatedTasks = currentState.filter(task => task.id != taskId);
@@ -43,6 +58,7 @@ export const AppContextProvider = (props) => {
             creator,
             tasks,
             addTask,
+            editTask,
             removeTask
         }}>
             {children}
