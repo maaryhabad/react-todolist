@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+
+import { api } from "../services";
 
 
 export const AppContext = createContext({});
@@ -8,19 +10,22 @@ export const AppContextProvider = (props) => {
 
     const [creator, setCreator] = useState('Mari Abad');
 
-    const [tasks, setTasks] = useState([
-        {id: 1, name: "Item 1"},
-        {id: 2, name: "Item 2"},
-        {id: 3, name: "Item 3"},
-    ]);
+    const [tasks, setTasks] = useState([]);
 
-    const addTask = (taskName) => {
+    const loadTasks = async () => {
+        const { data = [] } = await api.get('/tasks');
+
+        setTasks([
+            ...data,
+        ])
+    }
+
+    const addTask = async (taskName) => {
+        const { data: task } = await api.post('/tasks', {
+            name: taskName,
+        });
+
         setTasks(currentState => {
-            const task = {
-                id: currentState.length + 1,
-                name: taskName
-            }
-    
             return [
                 ...currentState,
                 task,
@@ -28,22 +33,25 @@ export const AppContextProvider = (props) => {
         });
     }
 
-    const editTask = (taskId, taskName) => {
-        const updatedTasks = setTasks(currentState => {
-            currentState.map(task => {
-                return task.id == taskId ? {
-                    ...task,
-                    name: taskName,
-                } : task;
-            })
+    const editTask = async (taskId, taskName) => {
+        const { data: updatedTask } = await api.put(`tasks/${taskId}`, {
+            name: taskName
         });
+    
+        setTasks(currentState => 
+            currentState.map(task => 
+                task.id === taskId ? { ...task, name: updatedTask.name } : task
+            )
+        );
 
         return [
             ...updatedTasks,
         ]
     }
 
-    const removeTask = (taskId) => {
+    const removeTask = async (taskId) => {
+        await api.delete(`tasks/${taskId}`);
+
         setTasks(currentState => {
             const updatedTasks = currentState.filter(task => task.id != taskId);
 
@@ -52,11 +60,15 @@ export const AppContextProvider = (props) => {
             ]
         })
     }
+
+    useEffect(() => {
+        loadTasks();
+    }, []);
     
     return (
         <AppContext.Provider value={{
             creator,
-            tasks,
+            tasks: tasks || [],
             addTask,
             editTask,
             removeTask
